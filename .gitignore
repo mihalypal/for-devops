@@ -1,0 +1,49 @@
+# Node.js alapértelmezett kizárások
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Környezeti változók fájlai
+.env
+.env.local
+.env.*.local
+
+# IDE és editor fájlok
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# EJS nézetek fordítási fájljai (ha generáltad őket)
+*.tmp
+*.log
+
+# Operációs rendszer-specifikus fájlok
+.DS_Store
+Thumbs.db
+
+# Debugger vagy egyéb fejlesztői eszközök fájljai
+coverage/
+.nyc_output/
+*.log
+
+# Docker (ha Docker-rel használod)
+docker-compose.override.yml
+
+# Build kimenetek (ha van build folyamat)
+dist/
+build/
+tmp/
+out/
+
+# Git által létrehozott fájlok
+*.orig
+
+# Lokális konfigurációs fájlok
+*.local
+*.cache
