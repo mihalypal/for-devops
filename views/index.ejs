@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mihály Pál">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a class="active" href="/">Főoldal</a></li>
+                <li><a href="/game">Játék</a></li>
+                <li><a target="_blank" href="https://github.com/mihalypal/for-devops">Ennek a csodának a linkje</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <h1>Üdvözöllek a <%= title %> weboldalamon!</h1>
+        <p>Ez egy igazán komoly funkcionalitással ellátott weboldal</p>
+        <p>Eskü</p>
+        <button onclick="location.href='/game'">Játszunk egy játékot</button>
+    </div>
+</body>
+
+</html>

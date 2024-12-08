@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .reload-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+
+        body {
+            padding-top: 50px;
+            /* Adjust this value if the navbar height changes */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Főoldal</a></li>
+                <li><a class="active" href="/game">Játék</a></li>
+                <li><a target="_blank" href="https://github.com/mihalypal/for-devops">Ennek a csodának a linkje</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Játszunk: <%= title %>!</h1>
+    <p>Kezdd el a játékot!</p>
+    <div class="board" id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+    </div>
+    <div class="button-container">
+        <button class="reload-button" id="reloadButton">Újrakezdés</button>
+    </div>
+    <script>
+        const board = document.getElementById('board');
+        const cells = document.querySelectorAll('.cell');
+        const reloadButton = document.getElementById('reloadButton');
+        let currentPlayer = 'X';
+        const boardState = Array(9).fill(null);
+
+        const checkWinner = () => {
+            const winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (const combination of winningCombinations) {
+                const [a, b, c] = combination;
+                if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+                    return boardState[a];
+                }
+            }
+            return null;
+        };
+
+        const computerMove = () => {
+            let availableCells = [];
+            boardState.forEach((cell, index) => {
+                if (!cell) availableCells.push(index);
+            });
+
+            if (availableCells.length === 0) return;
+
+            const randomIndex = Math.floor(Math.random() * availableCells.length);
+            const cellIndex = availableCells[randomIndex];
+            boardState[cellIndex] = currentPlayer;
+            cells[cellIndex].textContent = currentPlayer;
+
+            const winner = checkWinner();
+            if (winner) {
+                setTimeout(() => {
+                    alert(`${winner} wins!`);
+                    reloadButton.style.display = 'block';
+                }, 10);
+            } else if (!boardState.includes(null)) {
+                setTimeout(() => {
+                    alert('Draw!');
+                    reloadButton.style.display = 'block';
+                }, 10);
+            } else {
+                currentPlayer = 'X';
+            }
+        };
+
+        const handleClick = (e) => {
+            const index = e.target.dataset.index;
+            if (boardState[index] || checkWinner() || currentPlayer !== 'X') return;
+
+            boardState[index] = currentPlayer;
+            e.target.textContent = currentPlayer;
+            const winner = checkWinner();
+
+            if (winner) {
+                setTimeout(() => {
+                    alert(`${winner} nyert!`);
+                    reloadButton.style.display = 'block';
+                }, 10);
+            } else if (!boardState.includes(null)) {
+                setTimeout(() => {
+                    alert('Draw!');
+                    reloadButton.style.display = 'block';
+                }, 10);
+            } else {
+                currentPlayer = 'O';
+                setTimeout(computerMove, 500);
+            }
+        };
+
+        reloadButton.addEventListener('click', () => {
+            location.reload();
+        });
+
+        cells.forEach(cell => cell.addEventListener('click', handleClick));
+    </script>
+</body>
+
+</html>
