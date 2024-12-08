@@ -15,10 +15,14 @@ app.get('/', (req, res) => {
 
 // Define a route for the game page
 app.get('/game', (req, res) => {
-    res.render('game', { title: 'Tic-Tac-Toe' });
-  });
+  res.render('game', { title: 'Tic-Tac-Toe' });
+});
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+} else {
+  module.exports = app;
+}
